@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0f14">
+  <meta name="description" content="Personal portfolio of a data scientist — projects, skills, and contact information.">
+  <title>Your Name — Data Scientist</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f14;
+      --surface: #111821;
+      --surface-2: #151f2a;
+      --text: #edf2f7;
+      --muted: #9aa8b7;
+      --line: rgba(190, 210, 230, .13);
+      --accent: #83dbc4;
+      --accent-2: #b5f1df;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0; background:
+        radial-gradient(ellipse at 78% 8%, rgba(65, 145, 125, .11), transparent 32rem),
+        var(--bg);
+      color: var(--text); font-family: var(--sans); line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .nav-wrap {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(11, 15, 20, .86); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav {
+      max-width: var(--max); min-height: 72px; margin: auto; padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { font: 600 14px var(--mono); letter-spacing: -.04em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-link, .projects-toggle {
+      border: 0; background: transparent; color: var(--muted); cursor: pointer;
+      padding: 10px 13px; border-radius: 7px; font: 500 13px var(--mono);
+      transition: color .2s, background .2s;
+    }
+    .nav-link:hover, .projects-toggle:hover, .nav-link.active { color: var(--text); background: rgba(255,255,255,.055); }
+    .dropdown { position: relative; }
+    .projects-toggle::after { content: "⌄"; margin-left: 8px; color: var(--accent); }
+    .dropdown-menu {
+      position: absolute; top: calc(100% + 12px); left: 0; min-width: 230px;
+      padding: 8px; background: #121a23; border: 1px solid var(--line);
+      border-radius: 10px; box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      opacity: 0; visibility: hidden; transform: translateY(7px);
+      transition: .18s ease;
+    }
+    .dropdown.open .dropdown-menu, .dropdown:focus-within .dropdown-menu,
+    @media (hover: hover) { .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); } }
+    .dropdown-menu a { display: block; padding: 10px 12px; border-radius: 6px; color: var(--muted); font: 12px var(--mono); }
+    .dropdown-menu a:hover { color: var(--accent); background: rgba(131,219,196,.07); }
+    .menu-button { display: none; border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 8px; padding: 8px 10px; font-size: 18px; }
+    main { max-width: var(--max); margin: auto; padding: 0 28px; }
+    .hero { min-height: 610px; display: flex; flex-direction: column; justify-content: center; padding: 90px 0 105px; }
+    .eyebrow { color: var(--accent); font: 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    h1 { max-width: 820px; margin: 22px 0 20px; font-size: clamp(42px, 7vw, 76px); line-height: 1.08; letter-spacing: -.065em; font-weight: 650; }
+    h1 .highlight { color: var(--accent); }
+    .intro { max-width: 660px; margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 19px); line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; gap: 9px; padding: 11px 16px; border-radius: 7px; font: 600 12px var(--mono); transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { color: #07130f; background: var(--accent); }
+    .button.secondary { color: var(--text); border: 1px solid var(--line); }
+    .section { padding: 75px 0; border-top: 1px solid var(--line); }
+    .section-heading { display: flex; align-items: baseline; gap: 15px; margin-bottom: 28px; }
+    .section-number { color: var(--accent); font: 12px var(--mono); }
+    h2 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
+    .section-lead { color: var(--muted); max-width: 650px; margin: -12px 0 28px; }
+    .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .project {
+      min-height: 220px; padding: 24px; border: 1px solid var(--line); border-radius: 12px;
+      background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+      transition: border-color .2s, transform .2s;
+    }
+    .project:hover { border-color: rgba(131,219,196,.45); transform: translateY(-3px); }
+    .project-top { display: flex; justify-content: space-between; align-items: center; color: var(--accent); font: 11px var(--mono); }
+    .project h3 { margin: 23px 0 8px; font-size: 19px; letter-spacing: -.03em; }
+    .project p { margin: 0; color: var(--muted); font-size: 14px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+    .tag { padding: 4px 8px; color: #b7c5d1; border: 1px solid var(--line); border-radius: 4px; font: 10px var(--mono); }
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 50px; }
+    .about-copy { color: var(--muted); max-width: 650px; }
+    .about-copy p { margin: 0 0 16px; }
+    .skills { display: flex; flex-wrap: wrap; align-content: start; gap: 9px; }
+    .skill { padding: 8px 11px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: #c6d2dc; font: 11px var(--mono); }
+    footer { border-top: 1px solid var(--line); background: rgba(0,0,0,.12); }
+    .footer-inner { max-width: var(--max); margin: auto; padding: 38px 28px 30px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer-title { font-weight: 600; }
+    .footer-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .socials { display: flex; gap: 20px; font: 12px var(--mono); color: var(--muted); }
+    .socials a:hover { color: var(--accent); }
+    .copyright { max-width: var(--max); margin: auto; padding: 0 28px 22px; color: #657382; font: 10px var(--mono); }
+    @media (max-width: 680px) {
+      nav { min-height: 66px; padding: 0 20px; }
+      .menu-button { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: 66px; left: 0; right: 0; padding: 12px 20px 18px; flex-direction: column; align-items: stretch; gap: 4px; background: #0e141b; border-bottom: 1px solid var(--line); }
+      .nav-links.mobile-open { display: flex; }
+      .nav-link, .projects-toggle { width: 100%; text-align: left; padding: 12px; }
+      .dropdown-menu { position: static; display: none; margin: 4px 0 6px 10px; opacity: 1; visibility: visible; transform: none; box-shadow: none; }
+      .dropdown.open .dropdown-menu { display: block; }
+      main { padding: 0 21px; }
+      .hero { min-height: 570px; padding: 80px 0; }
+      .project-grid, .about-grid { grid-template-columns: 1fr; }
+      .about-grid { gap: 25px; }
+      .section { padding: 58px 0; }
+      .footer-inner { padding: 30px 21px; align-items: flex-start; flex-direction: column; }
+      .copyright { padding: 0 21px 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <nav aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Your Name home"><span>◆</span> YOURNAME<span>.</span></a>
+      <button class="menu-button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+      <div class="nav-links">
+        <a class="nav-link active" href="#home">Home</a>
+        <div class="dropdown">
+          <button class="projects-toggle" aria-expanded="false" aria-haspopup="true">Projects</button>
+          <div class="dropdown-menu" aria-label="Project pages">
+            <a href="#project-01">01 / Exploratory Data Analysis</a>
+            <a href="#project-02">02 / Predictive Modeling</a>
+            <a href="#project-03">03 / Data Visualization</a>
+            <a href="#project-04">04 / Statistical Research</a>
+          </div>
+        </div>
+        <a class="nav-link" href="#about">About</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="eyebrow">Data scientist · Curious by nature</div>
+      <h1>Turning complex data into <span class="highlight">clear insights.</span></h1>
+      <p class="intro">Hi, I'm <strong style="color:var(--text)">Your Name</strong> — a data scientist interested in finding the stories hidden in data. I combine statistical thinking, thoughtful analysis, and clear communication to turn real-world questions into useful answers.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#projects">Explore my work <span aria-hidden="true">↘</span></a>
+        <a class="button secondary" href="mailto:hello@example.com">Get in touch <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="section-heading"><span class="section-number">01</span><h2>Selected projects</h2></div>
+      <p class="section-lead">A few examples of how I explore data, build models, and communicate findings. Replace these starter entries with your own work.</p>
+      <div class="project-grid">
+        <article class="project" id="project-01">
+          <div class="project-top"><span>PROJECT / 01</span><span>↗</span></div>
+          <h3>Exploratory Data Analysis</h3>
+          <p>Uncover patterns, investigate relationships, and communicate the signal behind a real-world dataset.</p>
+          <div class="tags"><span class="tag">R</span><span class="tag">Tidyverse</span><span class="tag">EDA</span></div>
+        </article>
+        <article class="project" id="project-02">
+          <div class="project-top"><span>PROJECT / 02</span><span>↗</span></div>
+          <h3>Predictive Modeling</h3>
+          <p>Build and evaluate a model, compare its performance, and explain what its predictions can — and cannot — tell us.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Regression</span><span class="tag">ML</span></div>
+        </article>
+        <article class="project" id="project-03">
+          <div class="project-top"><span>PROJECT / 03</span><span>↗</span></div>
+          <h3>Data Visualization</h3>
+          <p>Translate complex information into accessible visual stories that help people make more informed decisions.</p>
+          <div class="tags"><span class="tag">Visualization</span><span class="tag">Python</span><span class="tag">Storytelling</span></div>
+        </article>
+        <article class="project" id="project-04">
+          <div class="project-top"><span>PROJECT / 04</span><span>↗</span></div>
+          <h3>Statistical Research</h3>
+          <p>Use careful statistical reasoning to test a question, assess uncertainty, and draw defensible conclusions.</p>
+          <div class="tags"><span class="tag">Statistics</span><span class="tag">Research</span><span class="tag">R</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-heading"><span class="section-number">02</span><h2>A little about me</h2></div>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>I'm passionate about using data to better understand the world. My approach starts with asking good questions, checking assumptions, and choosing methods that fit the problem — not the other way around.</p>
+          <p>I'm always learning, experimenting with new tools, and looking for opportunities to collaborate on meaningful problems. If you're working on something interesting, I'd love to hear about it.</p>
+        </div>
+        <div class="skills" aria-label="Skills and tools">
+          <span class="skill">R</span><span class="skill">Python</span><span class="skill">SQL</span>
+          <span class="skill">Statistics</span><span class="skill">Data Wrangling</span>
+          <span class="skill">Machine Learning</span><span class="skill">Visualization</span>
+          <span class="skill">Communication</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <div><div class="footer-title">Let's connect.</div><div class="footer-sub">Have a question or an interesting project? My inbox is open.</div></div>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/your-profile/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="mailto:hello@example.com">Email ↗</a>
+      </div>
+    </div>
+    <div class="copyright">© <span id="year"></span> YOUR NAME · BUILT WITH CURIOSITY</div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdown = document.querySelector('.dropdown');
+    const projectsToggle = document.querySelector('.projects-toggle');
+
+    menuButton.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('mobile-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.textContent = open ? '×' : '☰';
+    });
+    projectsToggle.addEventListener('click', () => {
+      const open = dropdown.classList.toggle('open');
+      projectsToggle.setAttribute('aria-expanded', String(open));
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('mobile-open');
+        dropdown.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.textContent = '☰';
+        projectsToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
